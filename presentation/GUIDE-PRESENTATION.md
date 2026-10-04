@@ -2,13 +2,12 @@
 
 **Durée :** 8 à 10 minutes  
 **Fichier PPT :** `PRESENTATION-G4-Les_Hadoop_Riders.pptx`  
-**Date cible :** présentation orale (ex. 8 oct.)
-
-Objectif de ce guide : savoir **qui parle**, **quoi dire**, et **que répondre** si le prof pose une question.
+**Règle :** le nom du présentateur est en bas de chaque slide.  
+**Conclusion :** **Wren** (dernière personne du groupe).
 
 ---
 
-## Ordre de passage (résumé)
+## Ordre de passage
 
 | Slides | Qui | Temps |
 |--------|-----|-------|
@@ -17,185 +16,135 @@ Objectif de ce guide : savoir **qui parle**, **quoi dire**, et **que répondre**
 | 4 | **Joel** Kazoni Tugirimana | ~1 min |
 | 5 | **Forbes** Magène | ~1 min |
 | 6–7 | **Frank** A Simo Ngounou | ~1 min 30 |
-| 8 | **Wren** Surprenant-Nicolson | ~1 min 30 |
+| 8 | **Wren** Surprenant-Nicolson | ~1 min 15 |
 | 9 | **Forbes** Magène | ~1 min |
 | 10 | **Joel** Kazoni Tugirimana | ~1 min |
 | 11 | **Kassoum** Dene | ~1 min |
-| 12 | **Komla** Petro Asinyo | ~45 s + questions |
+| 12 | **Wren** Surprenant-Nicolson (conclusion) | ~45 s + questions |
 
-Chaque slide a déjà le **nom du présentateur en bas**.
-
-Astuce PowerPoint : Mode Présentateur → les **notes** sont déjà dans le fichier (clic droit slide → Notes).
+Astuce : Mode Présentateur → lire les **notes** sous chaque slide.
 
 ---
 
-## Avant de commencer (groupe)
+## Avant de commencer
 
-1. Ouvrir le PPT et se mettre d’accord sur qui clique (un seul « clicker »).
-2. Avoir le rapport PDF sous la main (captures si le prof demande une preuve).
-3. Si démo live possible :
-   - `docker compose up -d`
-   - UI : http://localhost:9870 et http://localhost:8088
-4. Liens à connaître :
-   - Hub : https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4
-   - GitHub : https://github.com/asinyopetro/Les_Hadoop_Riders_G4
+1. Un seul membre clique les slides.
+2. Avoir le rapport PDF sous la main.
+3. Si démo live : `docker compose up -d` puis http://localhost:9870 et :8088
+4. Liens :
+   - https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4
+   - https://github.com/asinyopetro/Les_Hadoop_Riders_G4
 
 ---
 
-## Slide par slide — quoi dire
+## Slide par slide
 
-### Slide 1 — Titre (Komla)
+### 1–2 — Komla (intro + plan)
 
 **Dire :**  
-« Bonjour, nous sommes le groupe G4 Les_Hadoop_Riders. On présente notre projet : un cluster Hadoop HDFS + YARN déployé avec Docker. »
-
-**Ne pas faire :** lire toute la liste des noms lentement.
+« Bonjour, G4 Les_Hadoop_Riders. On présente un cluster Hadoop HDFS + YARN avec Docker.  
+Objectif : déployer, manipuler HDFS, lancer un job YARN, publier l’image.  
+Voici le plan — Wren fera la conclusion. »
 
 ---
 
-### Slide 2 — Plan (Komla)
+### 3 — Kassoum (3V)
 
 **Dire :**  
-« On commence par le contexte théorique, puis l’architecture Docker, les manipulations HDFS, un job YARN, et on termine par le monitoring et les problèmes rencontrés. »
+Contexte e-commerce (ventes, logs, stocks).  
+Volume / Vélocité / Variété avec un exemple chacun.  
+Finir : HDFS stocke, YARN traite.
 
-Passe la parole à Kassoum.
-
----
-
-### Slide 3 — E-commerce et 3V (Kassoum)
-
-**Dire (environ 60 s) :**  
-« On a choisi l’e-commerce : une chaîne de magasins avec tickets de caisse, logs web et stocks.  
-- Volume : beaucoup de données sur plusieurs années.  
-- Vélocité : les commandes arrivent en continu.  
-- Variété : CSV, JSON, logs, images.  
-HDFS sert à stocker, YARN à traiter. »
-
-**Question possible :** Pourquoi pas une base SQL seule ?  
-**Réponse courte :** SQL ok pour données structurées ; ici volume + variété + fichiers → stockage distribué type HDFS plus adapté.
+**Q :** Pourquoi pas seulement SQL ?  
+**R :** SQL ok en structuré ; ici volume + variété de fichiers → HDFS plus adapté.
 
 ---
 
-### Slide 4 — HDFS vs FS classique (Joel)
+### 4 — Joel (HDFS)
 
 **Dire :**  
-« Sur un disque local, le fichier est sur une machine.  
-Sur HDFS, il est découpé en blocs, répliqués sur plusieurs DataNodes. Le NameNode garde les noms et l’emplacement des blocs. Ça tolère mieux les pannes. »
+Local = une machine. HDFS = blocs + réplication + NameNode.  
+Pointer le schéma sur le slide.
 
-**Question possible :** C’est quoi un bloc ?  
-**Réponse :** Un morceau du fichier (souvent 128 Mo). Notre CSV est petit → 1 seul bloc, c’est normal.
+**Q :** C’est quoi un bloc ?  
+**R :** Morceau du fichier (souvent 128 Mo). Notre CSV est petit → 1 bloc.
 
 ---
 
-### Slide 5 — YARN RM / NM (Forbes)
+### 5 — Forbes (YARN)
 
 **Dire :**  
-« Quand on lance un job : le ResourceManager (master) reçoit la demande et alloue des ressources.  
-Le NodeManager (sur chaque worker) démarre les conteneurs sur sa machine.  
-RM orchestre, NM exécute. »
+Client → ResourceManager (orchestre) → NodeManagers (exécutent).  
+Montrer la capture UI.
 
-**Question possible :** Et l’ApplicationMaster ?  
-**Réponse :** C’est le « chef » du job ; le RM aide à le démarrer, puis l’AM demande des conteneurs pour les maps/reduces.
-
----
-
-### Slides 6–7 — Architecture + Hub (Frank)
-
-**Slide 6 — Dire :**  
-« Six conteneurs : master (NameNode + ResourceManager) et cinq workers (DataNode + NodeManager).  
-Ports : 9870 HDFS, 8088 YARN, 9000 RPC. »
-
-**Slide 7 — Dire :**  
-« On lance avec `docker compose up --build -d`.  
-`dfsadmin -report` montre 5 Live datanodes.  
-Image publiée : `leshadoopriders/hadoop-tp-g4:1.0`. »
-
-**Question possible :** Pourquoi `g4` en minuscules ?  
-**Réponse :** Docker Hub refuse les majuscules dans le nom du dépôt.
+**Q :** ApplicationMaster ?  
+**R :** Chef du job ; le RM aide à le démarrer.
 
 ---
 
-### Slide 8 — Manipulations HDFS (Wren)
-
-**Dire (suivre l’ordre) :**  
-1. Création `/data/ventes/2026` + droits + upload CSV  
-2. `fsck` / `stat` → HEALTHY, réplication 3  
-3. Lecture `head`, puis `getmerge`  
-4. Suppression avec Trash  
-5. `setrep -w 2` → réplication à 2  
-
-**Question possible :** À quoi sert Trash ?  
-**Réponse :** Évite la suppression définitive immédiate ; le fichier va dans `.Trash`. `-skipTrash` force la suppression.
-
----
-
-### Slide 9 — Job π (Forbes)
+### 6–7 — Frank (archi + Hub)
 
 **Dire :**  
-« On a lancé l’exemple MapReduce `pi` avec 4 maps et 1000 samples.  
-Application `application_1791039798429_0001`, état SUCCEEDED, π ≈ 3.14.  
-Visible dans l’UI YARN. »
-
-**Question possible :** Pourquoi π ?  
-**Réponse :** Exemple officiel Hadoop, simple à lancer, prouve que YARN exécute bien un job.
+1 master (NN+RM) + 5 workers (DN+NM). Ports 9870 / 8088 / 9000.  
+Commandes : compose up, docker ps, dfsadmin → 5 Live.  
+Push Hub `leshadoopriders/hadoop-tp-g4:1.0` (minuscules).
 
 ---
 
-### Slide 10 — Monitoring (Joel)
+### 8 — Wren (HDFS pratique)
+
+**Dire :** les 5 étapes du slide (mkdir → put → fsck → merge/trash → setrep).  
+Fichier petit = 1 bloc, c’est normal.  
+*(Tu reviens à la fin pour conclure.)*
+
+---
+
+### 9 — Forbes (job π)
+
+**Dire :** commande pi 4 1000, app `…_0001`, SUCCEEDED, π ≈ 3.14.  
+Preuve que YARN marche.
+
+---
+
+### 10 — Joel (monitoring)
+
+**Dire :** UI NameNode 5 DN, pas de missing block ; YARN finished ; setrep met à jour la cible.
+
+---
+
+### 11 — Kassoum (troubles)
+
+**Dire :** les 3 problèmes (pull, majuscules, download lent) + solutions.  
+Puis : « Je passe la parole à Wren pour conclure. »
+
+---
+
+### 12 — Wren (conclusion — dernière)
 
 **Dire :**  
-« UI NameNode : 5 DataNodes, pas de missing block.  
-UI YARN : job finished / succeeded, avec mémoire et vcores.  
-Avec setrep, le NameNode met à jour la cible de réplication. »
+« Pour conclure : cluster 1+5 OK, HDFS manipulé, job π réussi, image sur Docker Hub, rapport et code livrés.  
+Merci, des questions ? »
+
+Ouvrir les liens Hub / GitHub si demandé.
 
 ---
 
-### Slide 11 — Troubleshooting (Kassoum)
+## Questions filet (tout le monde)
 
-**Dire les 3 points :**  
-1. Compose voulait pull une image pas encore publiée → `pull_policy: never`  
-2. Tag avec majuscules refusé → tout en minuscules  
-3. Download Apache trop lent → base `apache/hadoop:3.3.6`
-
----
-
-### Slide 12 — Conclusion (Komla)
-
-**Dire :**  
-« En résumé : cluster 1+5 opérationnel, HDFS manipulé, job π réussi, image sur Docker Hub. Merci, des questions ? »
-
----
-
-## Questions « filet de sécurité » (tout le monde)
-
-| Question | Réponse courte |
-|----------|----------------|
+| Question | Réponse |
+|----------|---------|
 | Combien de DataNodes ? | 5 |
-| Quelle version Hadoop ? | 3.3.6 |
+| Version Hadoop ? | 3.3.6 |
+| Image Hub ? | `leshadoopriders/hadoop-tp-g4:1.0` |
 | Où est le CSV ? | `/data/ventes/2026/transactions.csv` |
-| Lien Hub ? | `leshadoopriders/hadoop-tp-g4` |
-| Différence HDFS / local ? | Blocs + réplication + NameNode |
 | Qui alloue les ressources ? | ResourceManager |
-
-Si tu ne sais pas : « On a documenté ça dans le rapport section X » — mieux que d’inventer.
-
----
-
-## Timing si on dépasse
-
-Couper dans cet ordre :
-1. Détails du slide 10 (métriques exactes)
-2. Un des 3 problèmes du slide 11
-3. Ne pas relire les commandes du slide 7 en entier
-
-Ne jamais couper : 3V, HDFS vs local, RM/NM, 5 workers, job SUCCEEDED.
 
 ---
 
 ## Checklist jour J
 
-- [ ] PPT ouvert, mode diaporama testé une fois
+- [ ] PPT ouvert une fois en mode diaporama
 - [ ] Chacun a relu **ses** slides + notes
-- [ ] Un membre prêt à ouvrir 9870 / 8088 si demandé
+- [ ] Wren prêt pour la **conclusion**
 - [ ] Rapport PDF accessible
-- [ ] Parler lentement, regarder la salle, pas le mur
+- [ ] Parler lentement, regarder la salle
