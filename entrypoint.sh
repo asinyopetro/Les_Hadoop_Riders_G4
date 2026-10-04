@@ -6,9 +6,8 @@ export HADOOP_HOME="${HADOOP_HOME:-/opt/hadoop}"
 export HADOOP_CONF_DIR="${HADOOP_CONF_DIR:-/opt/hadoop/etc/hadoop}"
 export PATH="$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin"
 
-# JAVA_HOME depuis hadoop-env si non défini
+# JAVA_HOME depuis hadoop-env si besoin
 if [ -z "$JAVA_HOME" ]; then
-  # shellcheck disable=SC1091
   source "${HADOOP_HOME}/etc/hadoop/hadoop-env.sh" 2>/dev/null || true
 fi
 if [ -z "$JAVA_HOME" ]; then

@@ -1,6 +1,0 @@
-﻿2026-10-03 13:36:35 INFO  TrashPolicyDefault:188 - Moved: 'hdfs://hadoop-master:9000/data/ventes/2026/to_delete.csv' to trash at: hdfs://hadoop-master:9000/user/hadoop/.Trash/Current/data/ventes/2026/to_delete.csv
-drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current
-drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data
-drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes
-drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes/2026
--rw-r--r--   3 hadoop supergroup        190 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes/2026/to_delete.csv

@@ -1,7 +1,0 @@
-﻿NAMES            STATUS       PORTS
-hadoop-worker2   Up 9 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
-hadoop-worker3   Up 9 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
-hadoop-worker5   Up 9 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
-hadoop-worker1   Up 9 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
-hadoop-worker4   Up 9 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
-hadoop-master    Up 9 hours   0.0.0.0:8088->8088/tcp, [::]:8088->8088/tcp, 0.0.0.0:9000->9000/tcp, [::]:9000->9000/tcp, 0.0.0.0:9870->9870/tcp, [::]:9870->9870/tcp

@@ -21,32 +21,32 @@
 
 Nous avons choisi le secteur de l’**e-commerce**.
 
-Une enseigne de magasins doit conserver et analyser les transactions de vente, les logs du site web et les mouvements de stock. Le volume augmente chaque jour, les données arrivent en continu, et les formats sont variés (CSV, JSON, textes, images produits).
+Exemple : une chaîne de magasins qui garde les tickets de caisse, les logs du site et les mouvements de stock. Chaque jour le volume grossit, les données arrivent souvent, et les formats changent (CSV, JSON, texte, images produits).
 
-Les **3V** dans ce contexte :
+Les **3V** dans ce cas :
 
-- **Volume** : des millions d’événements et un historique sur plusieurs années.
-- **Vélocité** : flux quasi temps réel (paniers, paiements) ; il faut réagir vite (fraude, rupture).
-- **Variété** : données structurées et semi-structurées, logs, médias.
+- **Volume** : beaucoup d’événements, historique sur plusieurs années.
+- **Vélocité** : commandes et paiements en continu ; il faut pouvoir réagir vite (fraude, rupture de stock).
+- **Variété** : tables, logs, parfois des médias.
 
-HDFS permet de stocker ces données de façon distribuée. YARN permet de lancer des traitements (MapReduce, etc.) sur le cluster.
+HDFS sert au stockage distribué. YARN sert à lancer les jobs (MapReduce, etc.) sur le cluster.
 
 ### 2. HDFS vs système de fichiers classique (1.5 pt)
 
-Sur un système local (ext4, NTFS), un fichier est stocké sur **une** machine. Les métadonnées et le contenu sont gérés par le système d’exploitation local.
+Sur un système de fichiers classique (ext4, NTFS), un fichier vit sur **une** machine. C’est l’OS local qui gère les métadonnées et le contenu.
 
-Sur **HDFS**, le fichier est découpé en **blocs**. Ces blocs sont répartis et **répliqués** sur plusieurs DataNodes. Le **NameNode** conserve le namespace (noms, dossiers, emplacement des blocs).
+Avec **HDFS**, le fichier est coupé en **blocs**. Les blocs sont placés et **répliqués** sur plusieurs DataNodes. Le **NameNode** garde le namespace (noms, dossiers, où sont les blocs).
 
-Différence fondamentale : le stockage local est centralisé sur un disque ; HDFS est distribué et tolérant aux pannes grâce à la réplication.
+En pratique : le FS local est centralisé ; HDFS est distribué et plus tolérant aux pannes grâce à la réplication.
 
 ### 3. Rôle de YARN — ResourceManager et NodeManager (2 pts)
 
-Lorsqu’une application est soumise :
+Quand on soumet une application :
 
-- Le **ResourceManager** (sur le master) reçoit la demande, connaît les ressources du cluster et alloue des conteneurs. Il coordonne le démarrage de l’ApplicationMaster.
-- Le **NodeManager** (sur chaque worker) démarre et surveille les conteneurs **sur sa machine**, puis rapporte l’état au ResourceManager.
+- Le **ResourceManager** (master) reçoit la demande, voit les ressources du cluster et alloue des conteneurs. Il lance aussi l’ApplicationMaster.
+- Le **NodeManager** (chaque worker) démarre et surveille les conteneurs **sur son nœud**, puis remonte l’état au ResourceManager.
 
-En résumé : le ResourceManager décide et coordonne ; le NodeManager exécute localement.
+Donc : le ResourceManager orchestre ; le NodeManager exécute sur la machine.
 
 ---
 
@@ -177,10 +177,10 @@ Résultat :
 ### 1. Interfaces web (4 pts)
 
 **NameNode (http://localhost:9870)**  
-Le cluster affiche 5 DataNodes actifs. L’espace DFS utilisé reste faible (environnement de laboratoire). Aucun missing block observé pendant nos tests.
+On voit bien les 5 DataNodes. L’espace DFS utilisé est faible (labo). Pas de missing block pendant nos tests.
 
 **YARN (http://localhost:8088)**  
-L’application pi apparaît en état **FINISHED / SUCCEEDED**. Les métriques montrent l’allocation mémoire et le temps d’exécution (environ 198589 MB-seconds et 216 vcore-seconds sur un des runs).
+Le job pi est en **FINISHED / SUCCEEDED**. On voit aussi la mémoire et le temps d’exécution (environ 198589 MB-seconds et 216 vcore-seconds sur un des runs).
 
 ### 2. Facteur de réplication (3 pts)
 
@@ -188,8 +188,8 @@ L’application pi apparaît en état **FINISHED / SUCCEEDED**. Les métriques m
 hdfs dfs -setrep -w 2 /data/ventes/2026/transactions.csv
 ```
 
-Après la commande, la réplication du fichier passe à **2**.  
-Le NameNode met à jour la cible. Comme on diminuait de 3 à 2, une copie de bloc superflu est retirée sur les DataNodes. L’option `-w` attend la fin de l’opération.
+Après la commande, la réplication passe à **2**.  
+Le NameNode change la cible. Comme on passe de 3 à 2, une copie en trop est retirée. L’option `-w` attend que ce soit terminé.
 
 ### 3. Retour d'expérience / troubleshooting (3 pts)
 
