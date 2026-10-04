@@ -15,8 +15,8 @@
 
 ## À faire avant le 7 oct
 - [X] Accepter invite : https://github.com/asinyopetro/Les_Hadoop_Riders_G4/invitations
-- [ ] Commit + push
-- [ ] Vérifier la page Hub (Overview + tag 1.0)
+- [X] Commit + push
+- [X] Vérifier la page Hub (Overview + tag 1.0)
 
 ## Validation
 - [X] Validé par Wren — date : 3 Octobre 2026
