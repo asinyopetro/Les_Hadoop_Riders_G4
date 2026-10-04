@@ -1,4 +1,4 @@
-﻿# UA1 – Projet 1 : Cluster Hadoop avec Docker
+# UA1 – Projet 1 : Cluster Hadoop avec Docker
 
 **Groupe G4 – Les_Hadoop_Riders**
 
@@ -66,7 +66,9 @@ Conteneurs : `hadoop-master`, `hadoop-worker1` … `hadoop-worker5`
 Réseau : `hadoop-net`  
 Ports ouverts sur la machine : 9870 (HDFS UI), 8088 (YARN), 9000 (HDFS).
 
-Capture : `captures/00-docker-ps.txt` et captures d’écran dans `captures/`.
+Capture terminal (docker ps + rapport DataNodes) :
+
+![Terminal Docker / dfsadmin](captures/screenshot-terminal-01.png)
 
 Pour vérifier les DataNodes :
 

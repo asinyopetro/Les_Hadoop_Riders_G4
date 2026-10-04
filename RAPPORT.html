@@ -331,8 +331,12 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="
 Réseau : <code>hadoop-net</code><br />
 Ports ouverts sur la machine : 9870 (HDFS UI), 8088 (YARN), 9000
 (HDFS).</p>
-<p>Capture : <code>captures/00-docker-ps.txt</code> et captures d’écran
-dans <code>captures/</code>.</p>
+<p>Capture terminal (docker ps + rapport DataNodes) :</p>
+<figure>
+<img src="captures/screenshot-terminal-01.png"
+alt="Terminal Docker / dfsadmin" />
+<figcaption aria-hidden="true">Terminal Docker / dfsadmin</figcaption>
+</figure>
 <p>Pour vérifier les DataNodes :</p>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> hadoop-master hdfs dfsadmin <span class="at">-report</span></span></code></pre></div>

@@ -1,0 +1,64 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Windows PowerShell — Les_Hadoop_Riders_G4</title>
+<style>
+html,body{margin:0;background:#0c0c0c;height:100%;}
+pre{font-family:Consolas,'Courier New',monospace;font-size:15px;line-height:1.35;color:#cccccc;padding:18px 22px;white-space:pre-wrap;word-break:break-word;}
+.bar{background:#1f1f1f;color:#aaa;padding:8px 14px;font:13px Segoe UI;border-bottom:1px solid #333}
+</style></head><body>
+<div class='bar'>Windows PowerShell — Les_Hadoop_Riders_G4</div>
+<pre>PS C:\Users\asiny\Desktop\Les_Hadoop_Riders_G4&gt; docker ps
+NAMES            STATUS        PORTS
+hadoop-worker2   Up 10 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
+hadoop-worker3   Up 10 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
+hadoop-worker5   Up 10 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
+hadoop-worker1   Up 10 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
+hadoop-worker4   Up 10 hours   8042/tcp, 8088/tcp, 9000/tcp, 9864/tcp, 9870/tcp
+hadoop-master    Up 10 hours   0.0.0.0:8088-&gt;8088/tcp, [::]:8088-&gt;8088/tcp, 0.0.0.0:9000-&gt;9000/tcp, [::]:9000-&gt;9000/tcp, 0.0.0.0:9870-&gt;9870/tcp, [::]:9870-&gt;9870/tcp
+
+PS C:\Users\asiny\Desktop\Les_Hadoop_Riders_G4&gt; docker exec -it hadoop-master hdfs dfsadmin -report
+Configured Capacity: 5405505884160 (4.92 TB)
+Present Capacity: 5032864239616 (4.58 TB)
+DFS Remaining: 5032862023680 (4.58 TB)
+DFS Used: 2215936 (2.11 MB)
+DFS Used%: 0.00%
+Replicated Blocks:
+	Under replicated blocks: 0
+	Blocks with corrupt replicas: 0
+	Missing blocks: 0
+	Missing blocks (with replication factor 1): 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+	Low redundancy block groups: 0
+	Block groups with corrupt internal blocks: 0
+	Missing block groups: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (5):
+
+Name: 172.23.0.3:9866 (hadoop-worker5.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker5
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 143360 (140 KB)
+Non DFS Used: 19536273408 (18.19 GB)
+DFS Remaining: 1006572404736 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sun Oct 04 01:02:33 GMT 2026
+Last Block Report: Sat Oct 03 19:04:39 GMT 2026
+Num of Blocks: 5
+
+
+Name: 172.23.0.4:9866 (hadoop-worker3.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker3
+Decommission Status : Normal
+</pre>
+</body></html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>root@hadoop-master — YARN</title>
+<style>
+html,body{margin:0;background:#0c0c0c;height:100%;}
+pre{font-family:Consolas,'Courier New',monospace;font-size:15px;line-height:1.35;color:#cccccc;padding:18px 22px;white-space:pre-wrap;word-break:break-word;}
+.bar{background:#1f1f1f;color:#aaa;padding:8px 14px;font:13px Segoe UI;border-bottom:1px solid #333}
+</style></head><body>
+<div class='bar'>root@hadoop-master — YARN</div>
+<pre>root@hadoop-master:/# yarn application -list -appStates ALL
+docker : 2026-10-04 01:03:01,304 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at 
+hadoop-master/172.23.0.2:8032
+Au caract&#232;re C:\Users\asiny\AppData\Local\Temp\ps-script-67860ea5-b239-4dd4-997c-850c8a40b275.ps1:107 : 9
++ $yarn = docker exec hadoop-master bash -c &#39;yarn application -list -ap ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-10-04 01:0...172.23.0.2:8032:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Total number of applications (application-types: [], states: [NEW, NEW_SAVING, SUBMITTED, ACCEPTED, RUNNING, FINISHED, FAILED, KILLED] and tags: []):1
+                Application-Id	    Application-Name	    Application-Type	      User	     Queue	             State	       Final-State	       Progress	                       Tracking-URL
+application_1791039798429_0001	     QuasiMonteCarlo	           MAPREDUCE	      root	   default	          FINISHED	         SUCCEEDED	           100%	http://hadoop-worker1:19888/jobhistory/job/job_1791039798429_0001
+root@hadoop-master:/# yarn application -status application_1791039798429_0001 2&gt;&amp;1 | head -n 30
+2026-10-04 01:03:05,625 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at hadoop-master/172.23.0.2:8032
+2026-10-04 01:03:06,463 INFO conf.Configuration: resource-types.xml not found
+2026-10-04 01:03:06,464 INFO resource.ResourceUtils: Unable to find &#39;resource-types.xml&#39;.
+Application Report : 
+	Application-Id : application_1791039798429_0001
+	Application-Name : QuasiMonteCarlo
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : default
+	Application Priority : 0
+	Start-Time : 1791070566554
+	Finish-Time : 1791070642461
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://hadoop-worker1:19888/jobhistory/job/job_1791039798429_0001
+	RPC Port : 41245
+	AM Host : hadoop-worker1
+	Aggregate Resource Allocation : 210745 MB-seconds, 245 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : DISABLED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : &lt;Not set&gt;
+	AM container Node Label Expression : &lt;DEFAULT_PARTITION&gt;
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+</pre>
+</body></html>
