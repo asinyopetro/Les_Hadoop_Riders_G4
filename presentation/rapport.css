@@ -8,14 +8,62 @@ html {
 
 body {
   font-family: "Segoe UI", Calibri, "Helvetica Neue", Arial, sans-serif;
-  font-size: 11pt;
-  line-height: 1.45;
+  font-size: 10.5pt;
+  line-height: 1.42;
   color: #1e293b;
   max-width: 920px;
   margin: 0 auto;
   padding: 28px 36px 48px;
   background: #ffffff;
   box-shadow: 0 0 0 1px #d5ddd9;
+}
+
+/* Table des matières (pandoc --toc) */
+#TOC {
+  background: #f1f5f4;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #0f5c4c;
+  border-radius: 8px;
+  padding: 14px 20px 16px;
+  margin: 14px 0 20px;
+  page-break-after: always;
+}
+
+#TOC > ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#TOC ul ul {
+  list-style: none;
+  padding-left: 18px;
+  margin: 4px 0;
+}
+
+#TOC li {
+  margin: 5px 0;
+}
+
+#TOC a {
+  color: #0f5c4c;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+#TOC a:hover {
+  text-decoration: underline;
+}
+
+#TOC::before {
+  content: "Table des matières";
+  display: block;
+  font-size: 14pt;
+  font-weight: 700;
+  color: #0f5c4c;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #c2410c;
 }
 
 /* Cover / header block */
@@ -146,10 +194,13 @@ pre code {
 
 /* Images */
 img {
-  max-width: 100%;
+  max-width: 88%;
+  max-height: 280px;
+  width: auto;
   height: auto;
+  object-fit: contain;
   display: block;
-  margin: 10px auto 6px;
+  margin: 8px auto 4px;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(15, 92, 76, 0.08);
