@@ -1,6 +1,10 @@
 ﻿.DS_Store
 *.log
-tmp/
-_stage*/
-docs/superpowers/
+*.html
+RAPPORT.html
 DOCKERHUB_OVERVIEW.md
+contributions/
+REPARTITION.md
+captures/*.json
+captures/*-ui.html
+captures/term-*.html

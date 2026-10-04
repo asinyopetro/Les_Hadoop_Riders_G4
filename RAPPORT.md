@@ -1,251 +1,238 @@
-# UA1 – Projet 1 : Cluster Hadoop avec Docker
+# Projet 1 — Déploiement et Exploitation d'un Cluster Hadoop avec Docker
 
-**Groupe G4 – Les_Hadoop_Riders**
+**Cours :** Bases de données massives avancées (IFM30522)  
+**Groupe :** G4 — Les_Hadoop_Riders  
 
-| | |
-|---|---|
-| Image Docker Hub | `leshadoopriders/hadoop-tp-g4:1.0` |
-| Lien | https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4 |
-| Remise | 4 octobre 2026 |
-| Présentation | 8 octobre 2026 |
+| Étudiant | |
+|----------|--|
+| Komla Petro Asinyo | Kassoum Dene |
+| Joel Kazoni Tugirimana | Forbes Magène |
+| Frank A Simo Ngounou | Wren Surprenant-Nicolson |
 
-**Équipe :** Komla Petro Asinyo, Kassoum Dene, Joel Kazoni Tugirimana, Forbes Magène, Frank A Simo Ngounou, Wren Surprenant-Nicolson
-
-On s’est basés sur le dépôt du cours (hadoop-cluster-docker), puis on a adapté la config pour avoir un vrai cluster avec 1 master et 5 workers, comme demandé dans l’énoncé.
-
----
-
-## Partie 1 – Théorie
-
-### 1. Cas d’usage Big Data (e-commerce)
-
-On a choisi l’e-commerce, parce que ça colle bien avec notre fichier `transactions.csv` (ventes par magasin).
-
-Imaginons une chaîne de magasins qui reçoit des milliers de transactions par jour (caisse + site web). Le problème, c’est pas juste « stocker un Excel » :
-
-- **Volume** : l’historique sur plusieurs années devient énorme (transactions, logs de navigation, stocks).
-- **Vélocité** : les données arrivent en continu. Si on attend le lendemain pour analyser, on rate des alertes (fraude, rupture de stock).
-- **Variété** : on a du CSV, du JSON, des logs texte, parfois des images produits. Ce n’est pas un seul format propre.
-
-Dans ce contexte, HDFS sert à stocker tout ça sur plusieurs machines, et YARN à lancer des traitements dessus sans tout faire sur un seul PC.
-
-### 2. HDFS vs système de fichiers classique
-
-Sur Windows/Linux classique (NTFS, ext4), un fichier est sur **un** disque / **une** machine. Si le disque lâche et qu’on n’a pas de backup, c’est fini.
-
-Sur HDFS, le fichier est découpé en **blocs**. Ces blocs sont copiés sur plusieurs DataNodes (réplication). Le NameNode garde la « carte » : quel bloc est où. Du coup :
-
-- on peut lire en parallèle ;
-- si un worker tombe, les autres ont encore une copie.
-
-C’est ça la grosse différence : local = centralisé ; HDFS = distribué + répliqué.
-
-### 3. ResourceManager vs NodeManager
-
-Quand on lance un job (ex. calcul de pi) :
-
-- Le **ResourceManager** (sur le master) regarde les ressources du cluster et décide où placer les tâches.
-- Le **NodeManager** (sur chaque worker) exécute vraiment les conteneurs sur sa machine et dit au RM si ça va ou pas.
-
-En gros : le RM organise, les NM font le travail.
+**Docker Hub :** https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
+**Image :** `leshadoopriders/hadoop-tp-g4:1.0`  
+**Code source :** https://github.com/asinyopetro/Les_Hadoop_Riders_G4  
 
 ---
 
-## Partie 2 – Pratique
+## Partie 1 — Contexte théorique et architecture (5 pts)
 
-### A. Docker : master + 5 workers
+### 1. Cas d'usage Big Data (1.5 pt)
 
-On a construit une image et lancé 6 conteneurs avec Docker Compose.
+Nous avons choisi le secteur de l’**e-commerce**.
+
+Une enseigne de magasins doit conserver et analyser les transactions de vente, les logs du site web et les mouvements de stock. Le volume augmente chaque jour, les données arrivent en continu, et les formats sont variés (CSV, JSON, textes, images produits).
+
+Les **3V** dans ce contexte :
+
+- **Volume** : des millions d’événements et un historique sur plusieurs années.
+- **Vélocité** : flux quasi temps réel (paniers, paiements) ; il faut réagir vite (fraude, rupture).
+- **Variété** : données structurées et semi-structurées, logs, médias.
+
+HDFS permet de stocker ces données de façon distribuée. YARN permet de lancer des traitements (MapReduce, etc.) sur le cluster.
+
+### 2. HDFS vs système de fichiers classique (1.5 pt)
+
+Sur un système local (ext4, NTFS), un fichier est stocké sur **une** machine. Les métadonnées et le contenu sont gérés par le système d’exploitation local.
+
+Sur **HDFS**, le fichier est découpé en **blocs**. Ces blocs sont répartis et **répliqués** sur plusieurs DataNodes. Le **NameNode** conserve le namespace (noms, dossiers, emplacement des blocs).
+
+Différence fondamentale : le stockage local est centralisé sur un disque ; HDFS est distribué et tolérant aux pannes grâce à la réplication.
+
+### 3. Rôle de YARN — ResourceManager et NodeManager (2 pts)
+
+Lorsqu’une application est soumise :
+
+- Le **ResourceManager** (sur le master) reçoit la demande, connaît les ressources du cluster et alloue des conteneurs. Il coordonne le démarrage de l’ApplicationMaster.
+- Le **NodeManager** (sur chaque worker) démarre et surveille les conteneurs **sur sa machine**, puis rapporte l’état au ResourceManager.
+
+En résumé : le ResourceManager décide et coordonne ; le NodeManager exécute localement.
+
+---
+
+## Partie 2 — Déploiement et manipulation pratique (15 pts)
+
+### A. Mise en place de l'environnement Docker (4 pts)
+
+#### 1. Déploiement NameNode + 5 DataNodes (1.5 pt)
+
+Nous avons déployé six conteneurs :
+
+- `hadoop-master` : NameNode, ResourceManager, SecondaryNameNode  
+- `hadoop-worker1` à `hadoop-worker5` : DataNode + NodeManager  
+
+Réseau Docker : `hadoop-net`  
+Ports exposés : **9870** (UI HDFS), **8088** (UI YARN), **9000** (HDFS RPC)
 
 ```bash
 docker compose up --build -d
 docker ps
 ```
 
-Conteneurs : `hadoop-master`, `hadoop-worker1` … `hadoop-worker5`  
-Réseau : `hadoop-net`  
-Ports ouverts sur la machine : 9870 (HDFS UI), 8088 (YARN), 9000 (HDFS).
+![Capture terminal — docker ps / dfsadmin](captures/screenshot-terminal-01.png)
 
-Capture terminal (docker ps + rapport DataNodes) :
-
-![Terminal Docker / dfsadmin](captures/screenshot-terminal-01.png)
-
-Pour vérifier les DataNodes :
+#### 2. Vérification des DataNodes (1.5 pt)
 
 ```bash
 docker exec -it hadoop-master hdfs dfsadmin -report
 ```
 
-On obtient bien **Live datanodes (5)**.  
-UI : http://localhost:9870
+Résultat observé : **Live datanodes (5)**.  
+Interface NameNode : http://localhost:9870
 
-![NameNode](captures/screenshot-namenode.png)
+![UI NameNode](captures/screenshot-namenode.png)
 
-![DataNodes](captures/screenshot-datanodes.png)
+![Liste des DataNodes](captures/screenshot-datanodes.png)
 
-#### Publication Docker Hub
-
-Compte créé : **leshadoopriders**
+#### 3. Publication de l'image (1 pt)
 
 ```bash
 docker login
 docker push leshadoopriders/hadoop-tp-g4:1.0
 ```
 
-Lien public : https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
+**URL publique :** https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
 
-Petit détail : Docker refuse les majuscules dans le nom d’image, donc on a mis `g4` et pas `G4`.
+(Note : Docker Hub impose les minuscules, d’où `g4` plutôt que `G4`.)
 
 ---
 
-### B. Manipulations HDFS
+### B. Manipulation avancée sur HDFS (6 pts)
 
-Création du dossier, droits, et upload du CSV (fichier préparé dans `data/transactions.csv`) :
+#### 4. Répertoires et droits (2 pts)
+
+Fichier local créé : `data/transactions.csv` (colonnes ID, Date, Montant, Magasin — 10 lignes).
 
 ```bash
 hdfs dfs -mkdir -p /data/ventes/2026
 hdfs dfs -chmod 755 /data/ventes/2026
 hdfs dfs -put -f /data/transactions.csv /data/ventes/2026/
 hdfs dfs -chmod 644 /data/ventes/2026/transactions.csv
-hdfs dfs -ls -d /data/ventes/2026
-hdfs dfs -ls /data/ventes/2026/transactions.csv
+```
+
+#### 5. Transfert et vérification des blocs (2 pts)
+
+```bash
 hdfs fsck /data/ventes/2026/transactions.csv -files -blocks -locations
 hdfs dfs -stat "%n | taille=%b | replication=%r | block_size=%o" /data/ventes/2026/transactions.csv
 ```
 
-Après `chmod`, on voit bien `drwxr-xr-x` sur le dossier et `-rw-r--r--` sur le fichier (preuve : `captures/12-droits-chmod.txt`).
+Résultats :
+- taille : 377 octets  
+- réplication initiale : 3  
+- 1 bloc (fichier petit ; taille de bloc par défaut 128 Mo)  
+- état FSCK : HEALTHY  
 
-Capture terminal HDFS (`ls`, `head`, `fsck`) :
+![Capture terminal — HDFS](captures/screenshot-terminal-02.png)
 
-![Terminal HDFS](captures/screenshot-terminal-02.png)
-
-Ce qu’on a vu chez nous :
-- taille ≈ 377 octets
-- réplication de départ = 3
-- 1 seul bloc (normal, le fichier est petit ; la taille de bloc par défaut est 128 Mo)
-- fsck : HEALTHY
-
-Lecture des 5 premières lignes **depuis HDFS** (sans re-télécharger le fichier à la main) :
+#### 6. Lecture et concaténation (1 pt)
 
 ```bash
 hdfs dfs -cat /data/ventes/2026/transactions.csv | head -n 5
-```
-
-Ensuite on a ajouté `transactions_part2.csv`, puis fusionné avec `getmerge` :
-
-```bash
 hdfs dfs -put -f /data/transactions_part2.csv /data/ventes/2026/
 hdfs dfs -getmerge /data/ventes/2026 /tmp/transactions_merged.csv
 hdfs dfs -put -f /tmp/transactions_merged.csv /data/ventes/2026/transactions_merged.csv
 ```
 
-Pour la suppression / corbeille :
+Les 5 premières lignes sont lues directement depuis HDFS. Les deux fichiers ont été fusionnés via `getmerge`.
+
+#### 7. Suppression / corbeille (1 pt)
 
 ```bash
 hdfs dfs -rm /data/ventes/2026/transactions_part2.csv
-# pour forcer la corbeille :
 hdfs dfs -D fs.trash.interval=10080 -rm /data/ventes/2026/to_delete.csv
 hdfs dfs -ls -R /user/hadoop/.Trash
 # suppression définitive :
-# hdfs dfs -rm -skipTrash ...
+# hdfs dfs -rm -skipTrash /chemin/fichier
 ```
 
-Au début, la corbeille n’était pas activée (intervalle à 0), donc le fichier disparaissait direct. En mettant `fs.trash.interval`, on a bien vu le fichier arriver dans `.Trash`.
-
-Preuves terminal : `captures/01-demo-hdfs.txt`, `captures/10-trash.txt`.
+Sans `fs.trash.interval`, la suppression peut être définitive. Avec un intervalle > 0, le fichier passe dans `.Trash`. L’option `-skipTrash` force la suppression définitive.
 
 ---
 
-### C. Job YARN – calcul de pi
+### C. Exécution d'un job YARN (5 pts)
 
-On a choisi l’exemple pi (Monte Carlo), comme dans l’énoncé :
+Exemple choisi : **calcul de π** (Monte Carlo).
 
 ```bash
 yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar pi 4 1000
 ```
 
 Résultat :
-- Application : `application_1791039798429_0001`
-- Nom : QuasiMonteCarlo
-- État final : **SUCCEEDED**
-- Estimation de π ≈ **3.14**
-- 4 maps, puis reduce à 100%
+- Application : `application_1791039798429_0001`  
+- Nom : QuasiMonteCarlo  
+- État final : **SUCCEEDED**  
+- Estimation de π ≈ 3.14  
 
-Capture terminal YARN (`yarn application -list` / status) :
+![Capture terminal — YARN](captures/screenshot-terminal-03.png)
 
-![Terminal YARN](captures/screenshot-terminal-03.png)
+![UI YARN — applications](captures/screenshot-yarn.png)
 
-![YARN](captures/screenshot-yarn.png)
-
-![Job SUCCEEDED](captures/screenshot-yarn-app.png)
-
-Après le job, on a eu un warning parce que le JobHistory Server (port 10020) n’était pas lancé. Le job était quand même réussi dans l’UI YARN (8088), donc on a gardé ça comme point de troubleshooting.
+![Détail application SUCCEEDED](captures/screenshot-yarn-app.png)
 
 ---
 
-## Partie 3 – Monitoring et analyse
+## Partie 3 — Administration, monitoring et analyse (10 pts)
 
-### Interfaces web
+### 1. Interfaces web (4 pts)
 
-**NameNode (9870)**  
-On voit l’espace disque (chez nous ça affiche une grosse capacité à cause de Docker/WSL) et surtout les **5 DataNodes live**. Pas de missing blocks sur nos tests.
+**NameNode (http://localhost:9870)**  
+Le cluster affiche 5 DataNodes actifs. L’espace DFS utilisé reste faible (environnement de laboratoire). Aucun missing block observé pendant nos tests.
 
-**YARN (8088)**  
-On retrouve l’appli pi en FINISHED / SUCCEEDED, avec le temps et la mémoire consommée (environ 198589 MB-seconds et 216 vcore-seconds).
+**YARN (http://localhost:8088)**  
+L’application pi apparaît en état **FINISHED / SUCCEEDED**. Les métriques montrent l’allocation mémoire et le temps d’exécution (environ 198589 MB-seconds et 216 vcore-seconds sur un des runs).
 
-### Changement du facteur de réplication
+### 2. Facteur de réplication (3 pts)
 
 ```bash
 hdfs dfs -setrep -w 2 /data/ventes/2026/transactions.csv
 ```
 
-Après la commande : replication = 2.  
-Hadoop met à jour la cible côté NameNode. Comme on descendait de 3 à 2, il a juste enlevé une copie en trop sur les DataNodes. L’option `-w` attend que ce soit fini avant de rendre la main.
+Après la commande, la réplication du fichier passe à **2**.  
+Le NameNode met à jour la cible. Comme on diminuait de 3 à 2, une copie de bloc superflu est retirée sur les DataNodes. L’option `-w` attend la fin de l’opération.
 
-### Problèmes qu’on a eus (et comment on a réglé)
+### 3. Retour d'expérience / troubleshooting (3 pts)
 
-1. **Compose essayait de pull l’image sur Docker Hub alors qu’elle n’existait pas encore**  
-   Erreur du style `pull access denied`.  
-   Fix : `pull_policy: never` + build local d’abord.
+**Problème 1 — pull Docker Hub avant le build**  
+Symptôme : `pull access denied` pour l’image du groupe.  
+Cause : Compose tentait de télécharger une image pas encore publiée.  
+Solution : `pull_policy: never` et build local de l’image.
 
-2. **Nom d’image avec majuscules (`G4`)**  
-   Docker refuse.  
-   Fix : `leshadoopriders/hadoop-tp-g4:1.0`.
+**Problème 2 — majuscules dans le tag**  
+Symptôme : `repository name must be lowercase`.  
+Solution : tag final `leshadoopriders/hadoop-tp-g4:1.0`.
 
-3. **Build trop long** (téléchargement Hadoop depuis archive.apache.org très lent)  
-   On est partis sur l’image `apache/hadoop:3.3.6` et on a mis nos configs + entrypoint par-dessus pour avoir master/workers.
+**Problème 3 — téléchargement Hadoop trop lent**  
+Symptôme : build bloqué longtemps sur archive.apache.org.  
+Solution : image de base `apache/hadoop:3.3.6` + nos fichiers de configuration et `entrypoint.sh`.
 
 ---
 
 ## Annexes
 
-### Commandes utiles
+### Structure du code source
 
-```bash
-docker compose up --build -d
-docker exec -it hadoop-master bash
-hdfs dfsadmin -report
-yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar pi 4 1000
-docker push leshadoopriders/hadoop-tp-g4:1.0
+```text
+Les_Hadoop_Riders_G4/
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── config/
+│   ├── core-site.xml
+│   ├── hdfs-site.xml
+│   ├── yarn-site.xml
+│   ├── mapred-site.xml
+│   └── workers
+├── data/
+│   ├── transactions.csv
+│   └── transactions_part2.csv
+├── scripts/
+│   ├── demo-hdfs.sh
+│   └── demo-yarn-pi.sh
+├── captures/
+└── README.md
 ```
 
-### Contenu du dossier rendu
+### Lien Docker Hub
 
-- `Dockerfile`, `docker-compose.yml`, `entrypoint.sh`
-- `config/` (core-site, hdfs-site, yarn-site, mapred-site, workers)
-- `data/` (CSV)
-- `scripts/` (démos)
-- `captures/` (preuves)
-- ce rapport
-
-### Qui présente quoi (8 octobre)
-
-À répartir dans le groupe (exemple) :
-1. Cas e-commerce / 3V  
-2. Architecture Docker + preuve des 5 DataNodes  
-3. Commandes HDFS  
-4. Job pi + UI YARN  
-5. setrep + monitoring  
-6. Troubleshooting + lien Docker Hub  
-
-Présence obligatoire le 8 octobre.
+https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4
