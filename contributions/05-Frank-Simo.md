@@ -4,7 +4,7 @@
 Job **YARN / MapReduce** : calcul de π + UI 8088.
 
 ## Points à dire
-1. Commande :
+1. Commande:
    `yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar pi 4 1000`
 2. Principe : Monte Carlo, 4 maps, YARN alloue les conteneurs.
 3. Résultat : application **SUCCEEDED**, π ≈ 3.14.
@@ -24,4 +24,4 @@ Puis ouvrir http://localhost:8088
 - [ ] Relancer le job pi une fois si besoin
 
 ## Validation
-- [ ] Validé par Frank — date : ________
+- [ ] Validé par Frank — date : 2026-10-03
