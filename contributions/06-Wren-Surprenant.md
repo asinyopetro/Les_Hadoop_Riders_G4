@@ -14,9 +14,9 @@
 5. Lien Hub : https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4
 
 ## À faire avant le 7 oct
-- [ ] Accepter invite : https://github.com/asinyopetro/Les_Hadoop_Riders_G4/invitations
+- [X] Accepter invite : https://github.com/asinyopetro/Les_Hadoop_Riders_G4/invitations
 - [ ] Commit + push
 - [ ] Vérifier la page Hub (Overview + tag 1.0)
 
 ## Validation
-- [ ] Validé par Wren — date : ________
+- [X] Validé par Wren — date : 3 Octobre 2026
