@@ -1,0 +1,36 @@
+﻿root@hadoop-master:/# hdfs dfs -ls /data/ventes/2026
+Found 2 items
+-rw-r--r--   2 hadoop supergroup        377 2026-10-03 13:30 /data/ventes/2026/transactions.csv
+-rw-r--r--   3 hadoop supergroup        567 2026-10-03 13:31 /data/ventes/2026/transactions_merged.csv
+root@hadoop-master:/# hdfs dfs -cat /data/ventes/2026/transactions.csv | head -n 5
+ID,Date,Montant,Magasin
+T001,2026-01-05,49.99,Montreal-Centre
+T002,2026-01-06,129.50,Laval
+T003,2026-01-07,15.25,Quebec
+T004,2026-01-08,250.00,Montreal-Ouest
+root@hadoop-master:/# hdfs fsck /data/ventes/2026/transactions.csv -files -blocks -locations 2>&1 | head -n 25
+Connecting to namenode via http://hadoop-master:9870/fsck?ugi=root&files=1&blocks=1&locations=1&path=%2Fdata%2Fventes%2F2026%2Ftransactions.csv
+FSCK started by root (auth:SIMPLE) from /172.23.0.2 for path /data/ventes/2026/transactions.csv at Sun Oct 04 01:02:57 GMT 2026
+
+/data/ventes/2026/transactions.csv 377 bytes, replicated: replication=2, 1 block(s):  OK
+0. BP-329230766-172.23.0.2-1791033373712:blk_1073741825_1001 len=377 Live_repl=2  [DatanodeInfoWithStorage[172.23.0.4:9866,DS-6b0bc5c8-0343-4441-977a-45186fdeff03,DISK], DatanodeInfoWithStorage[172.23.0.6:9866,DS-f042a204-27cf-4970-b237-39c216ef47fb,DISK]]
+
+
+Status: HEALTHY
+ Number of data-nodes:	5
+ Number of racks:		1
+ Total dirs:			0
+ Total symlinks:		0
+
+Replicated Blocks:
+ Total size:	377 B
+ Total files:	1
+ Total blocks (validated):	1 (avg. block size 377 B)
+ Minimally replicated blocks:	1 (100.0 %)
+ Over-replicated blocks:	0 (0.0 %)
+ Under-replicated blocks:	0 (0.0 %)
+ Mis-replicated blocks:		0 (0.0 %)
+ Default replication factor:	3
+ Average block replication:	2.0
+ Missing blocks:		0
+ Corrupt blocks:		0

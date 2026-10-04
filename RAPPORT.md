@@ -113,6 +113,10 @@ hdfs dfs -stat "%n | taille=%b | replication=%r | block_size=%o" /data/ventes/20
 
 Après `chmod`, on voit bien `drwxr-xr-x` sur le dossier et `-rw-r--r--` sur le fichier (preuve : `captures/12-droits-chmod.txt`).
 
+Capture terminal HDFS (`ls`, `head`, `fsck`) :
+
+![Terminal HDFS](captures/screenshot-terminal-02.png)
+
 Ce qu’on a vu chez nous :
 - taille ≈ 377 octets
 - réplication de départ = 3
@@ -164,6 +168,10 @@ Résultat :
 - État final : **SUCCEEDED**
 - Estimation de π ≈ **3.14**
 - 4 maps, puis reduce à 100%
+
+Capture terminal YARN (`yarn application -list` / status) :
+
+![Terminal YARN](captures/screenshot-terminal-03.png)
 
 ![YARN](captures/screenshot-yarn.png)
 

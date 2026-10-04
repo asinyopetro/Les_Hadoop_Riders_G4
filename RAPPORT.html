@@ -371,6 +371,12 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="
 <p>Après <code>chmod</code>, on voit bien <code>drwxr-xr-x</code> sur le
 dossier et <code>-rw-r--r--</code> sur le fichier (preuve :
 <code>captures/12-droits-chmod.txt</code>).</p>
+<p>Capture terminal HDFS (<code>ls</code>, <code>head</code>,
+<code>fsck</code>) :</p>
+<figure>
+<img src="captures/screenshot-terminal-02.png" alt="Terminal HDFS" />
+<figcaption aria-hidden="true">Terminal HDFS</figcaption>
+</figure>
 <p>Ce qu’on a vu chez nous : - taille ≈ 377 octets - réplication de
 départ = 3 - 1 seul bloc (normal, le fichier est petit ; la taille de
 bloc par défaut est 128 Mo) - fsck : HEALTHY</p>
@@ -406,6 +412,12 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="
 <code>application_1791039798429_0001</code> - Nom : QuasiMonteCarlo -
 État final : <strong>SUCCEEDED</strong> - Estimation de π ≈
 <strong>3.14</strong> - 4 maps, puis reduce à 100%</p>
+<p>Capture terminal YARN (<code>yarn application -list</code> / status)
+:</p>
+<figure>
+<img src="captures/screenshot-terminal-03.png" alt="Terminal YARN" />
+<figcaption aria-hidden="true">Terminal YARN</figcaption>
+</figure>
 <figure>
 <img src="captures/screenshot-yarn.png" alt="YARN" />
 <figcaption aria-hidden="true">YARN</figcaption>
