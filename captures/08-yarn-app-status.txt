@@ -1,0 +1,34 @@
+﻿docker : 2026-10-03 23:40:44,297 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at 
+hadoop-master/172.23.0.2:8032
+Au caractère C:\Users\asiny\AppData\Local\Temp\ps-script-a0e29c97-1470-468a-a9e0-eca2df249f61.ps1:88 : 1
++ docker exec hadoop-master bash -c 'yarn application -status applicati ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026-10-03 23:4...172.23.0.2:8032:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2026-10-03 23:40:45,043 INFO conf.Configuration: resource-types.xml not found
+2026-10-03 23:40:45,044 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+Application Report : 
+	Application-Id : application_1791039798429_0001
+	Application-Name : QuasiMonteCarlo
+	Application-Type : MAPREDUCE
+	User : root
+	Queue : default
+	Application Priority : 0
+	Start-Time : 1791070566554
+	Finish-Time : 1791070642461
+	Progress : 100%
+	State : FINISHED
+	Final-State : SUCCEEDED
+	Tracking-URL : http://hadoop-worker1:19888/jobhistory/job/job_1791039798429_0001
+	RPC Port : 41245
+	AM Host : hadoop-worker1
+	Aggregate Resource Allocation : 210745 MB-seconds, 245 vcore-seconds
+	Aggregate Resource Preempted : 0 MB-seconds, 0 vcore-seconds
+	Log Aggregation Status : DISABLED
+	Diagnostics : 
+	Unmanaged Application : false
+	Application Node Label Expression : <Not set>
+	AM container Node Label Expression : <DEFAULT_PARTITION>
+	TimeoutType : LIFETIME	ExpiryTime : UNLIMITED	RemainingTime : -1seconds
+

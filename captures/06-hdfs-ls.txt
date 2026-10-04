@@ -1,0 +1,10 @@
+﻿drwxr-xr-x   - hadoop supergroup          0 2026-10-03 13:30 /data/ventes
+drwxr-xr-x   - hadoop supergroup          0 2026-10-03 13:36 /data/ventes/2026
+-rw-r--r--   2 hadoop supergroup        377 2026-10-03 13:30 /data/ventes/2026/transactions.csv
+-rw-r--r--   3 hadoop supergroup        567 2026-10-03 13:31 /data/ventes/2026/transactions_merged.csv
+---
+drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current
+drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data
+drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes
+drwx------   - hadoop supergroup          0 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes/2026
+-rw-r--r--   3 hadoop supergroup        190 2026-10-03 13:36 /user/hadoop/.Trash/Current/data/ventes/2026/to_delete.csv

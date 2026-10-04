@@ -1,0 +1,6 @@
+﻿.DS_Store
+*.log
+tmp/
+_stage*/
+docs/superpowers/
+DOCKERHUB_OVERVIEW.md

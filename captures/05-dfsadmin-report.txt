@@ -1,0 +1,122 @@
+﻿Configured Capacity: 5405505884160 (4.92 TB)
+Present Capacity: 5032864571286 (4.58 TB)
+DFS Remaining: 5032862289920 (4.58 TB)
+DFS Used: 2281366 (2.18 MB)
+DFS Used%: 0.00%
+Replicated Blocks:
+	Under replicated blocks: 0
+	Blocks with corrupt replicas: 0
+	Missing blocks: 0
+	Missing blocks (with replication factor 1): 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+	Low redundancy block groups: 0
+	Block groups with corrupt internal blocks: 0
+	Missing block groups: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (5):
+
+Name: 172.23.0.3:9866 (hadoop-worker5.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker5
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 182588 (178.31 KB)
+Non DFS Used: 19536180932 (18.19 GB)
+DFS Remaining: 1006572457984 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Oct 03 23:40:25 GMT 2026
+Last Block Report: Sat Oct 03 19:04:39 GMT 2026
+Num of Blocks: 5
+
+
+Name: 172.23.0.4:9866 (hadoop-worker3.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker3
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 353274 (344.99 KB)
+Non DFS Used: 19536010246 (18.19 GB)
+DFS Remaining: 1006572457984 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Oct 03 23:40:25 GMT 2026
+Last Block Report: Sat Oct 03 17:46:50 GMT 2026
+Num of Blocks: 3
+
+
+Name: 172.23.0.5:9866 (hadoop-worker1.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker1
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 700416 (684 KB)
+Non DFS Used: 19535663104 (18.19 GB)
+DFS Remaining: 1006572457984 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Oct 03 23:40:26 GMT 2026
+Last Block Report: Sat Oct 03 19:22:40 GMT 2026
+Num of Blocks: 7
+
+
+Name: 172.23.0.6:9866 (hadoop-worker2.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker2
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 683171 (667.16 KB)
+Non DFS Used: 19535680349 (18.19 GB)
+DFS Remaining: 1006572457984 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Oct 03 23:40:25 GMT 2026
+Last Block Report: Sat Oct 03 19:02:47 GMT 2026
+Num of Blocks: 6
+
+
+Name: 172.23.0.7:9866 (hadoop-worker4.les_hadoop_riders_g4_hadoop-net)
+Hostname: hadoop-worker4
+Decommission Status : Normal
+Configured Capacity: 1081101176832 (1006.85 GB)
+DFS Used: 361917 (353.43 KB)
+Non DFS Used: 19536001603 (18.19 GB)
+DFS Remaining: 1006572457984 (937.44 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 93.11%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 0
+Last contact: Sat Oct 03 23:40:25 GMT 2026
+Last Block Report: Sat Oct 03 19:17:55 GMT 2026
+Num of Blocks: 5
+
+

@@ -1,0 +1,106 @@
+services:
+  hadoop-master:
+    build: .
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-master
+    hostname: hadoop-master
+    environment:
+      HADOOP_ROLE: master
+    ports:
+      - "9870:9870"
+      - "8088:8088"
+      - "9000:9000"
+    volumes:
+      - namenode-data:/opt/hadoop/data/nameNode
+      - ./data:/data
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+  hadoop-worker1:
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-worker1
+    hostname: hadoop-worker1
+    environment:
+      HADOOP_ROLE: worker
+    depends_on:
+      - hadoop-master
+    volumes:
+      - worker1-data:/opt/hadoop/data/dataNode
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+  hadoop-worker2:
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-worker2
+    hostname: hadoop-worker2
+    environment:
+      HADOOP_ROLE: worker
+    depends_on:
+      - hadoop-master
+    volumes:
+      - worker2-data:/opt/hadoop/data/dataNode
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+  hadoop-worker3:
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-worker3
+    hostname: hadoop-worker3
+    environment:
+      HADOOP_ROLE: worker
+    depends_on:
+      - hadoop-master
+    volumes:
+      - worker3-data:/opt/hadoop/data/dataNode
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+  hadoop-worker4:
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-worker4
+    hostname: hadoop-worker4
+    environment:
+      HADOOP_ROLE: worker
+    depends_on:
+      - hadoop-master
+    volumes:
+      - worker4-data:/opt/hadoop/data/dataNode
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+  hadoop-worker5:
+    image: leshadoopriders/hadoop-tp-g4:1.0
+    pull_policy: never
+    container_name: hadoop-worker5
+    hostname: hadoop-worker5
+    environment:
+      HADOOP_ROLE: worker
+    depends_on:
+      - hadoop-master
+    volumes:
+      - worker5-data:/opt/hadoop/data/dataNode
+    networks:
+      - hadoop-net
+    restart: unless-stopped
+
+networks:
+  hadoop-net:
+    driver: bridge
+
+volumes:
+  namenode-data:
+  worker1-data:
+  worker2-data:
+  worker3-data:
+  worker4-data:
+  worker5-data:

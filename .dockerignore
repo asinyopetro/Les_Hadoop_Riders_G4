@@ -1,0 +1,6 @@
+.git
+docs
+RAPPORT.md
+*.md
+scripts
+.gitignore
