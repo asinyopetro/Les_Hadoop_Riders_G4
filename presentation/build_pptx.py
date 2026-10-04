@@ -171,48 +171,31 @@ def build():
     # ========== 2 PLAN — Komla ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
-    title_bar(s, "Plan — qui présente quoi")
+    title_bar(s, "Plan — 2 slides par personne, dans l’ordre")
     textbox(s, 0.45, 1.2, 12.3, 0.45, [
-        {"text": "Environ 8–10 minutes. Chaque slide indique le présentateur en bas.", "size": 14, "color": MUTED},
+        {"text": "8–10 min · ordre du groupe · 2 slides chacun · Wren termine avec la conclusion", "size": 14, "color": MUTED},
     ])
-    items = [
-        ("01", "E-commerce & 3V", "Kassoum"),
-        ("02", "HDFS vs FS local", "Joel"),
-        ("03", "YARN (RM / NM)", "Forbes"),
-        ("04", "Architecture Docker", "Frank"),
-        ("05", "Déploiement & Hub", "Frank"),
-        ("06", "Manipulations HDFS", "Wren"),
-        ("07", "Job π YARN", "Forbes"),
-        ("08", "Monitoring UI", "Joel"),
-        ("09", "Troubleshooting", "Kassoum"),
-        ("10", "Conclusion", "Wren"),
-    ]
-    # show as two rows of 5 for clarity - wait we have 12 slides mapping differently
-    # Keep visual plan matching actual slides 3-12
     plan = [
-        ("3", "3V e-commerce", "Kassoum"),
-        ("4", "HDFS vs local", "Joel"),
-        ("5", "YARN RM / NM", "Forbes"),
-        ("6–7", "Archi + Hub", "Frank"),
-        ("8", "HDFS pratique", "Wren"),
-        ("9", "Job π", "Forbes"),
-        ("10", "Monitoring", "Joel"),
-        ("11", "Problèmes", "Kassoum"),
-        ("12", "Conclusion", "Wren"),
+        ("1–2", "Titre + plan", "Komla Petro Asinyo"),
+        ("3–4", "3V + HDFS vs local", "Kassoum Dene"),
+        ("5–6", "YARN + architecture", "Joel Kazoni Tugirimana"),
+        ("7–8", "Déploiement Hub + HDFS", "Forbes Magène"),
+        ("9–10", "Job π + monitoring", "Frank A Simo Ngounou"),
+        ("11–12", "Problèmes + conclusion", "Wren Surprenant-Nicolson"),
     ]
     for i, (num, label, who) in enumerate(plan):
         col = i % 3
         row = i // 3
         left = 0.45 + col * 4.2
-        top = 1.75 + row * 1.55
-        add_rect(s, Inches(left), Inches(top), Inches(4.0), Inches(1.4), CARD, TEAL_MID)
-        textbox(s, left + 0.2, top + 0.2, 3.6, 1.1, [
-            {"text": f"Slide {num}", "size": 12, "bold": True, "color": TEAL, "space": 4},
-            {"text": label, "size": 16, "bold": True, "color": SLATE, "space": 4},
+        top = 1.85 + row * 2.2
+        add_rect(s, Inches(left), Inches(top), Inches(4.0), Inches(1.95), CARD, TEAL_MID)
+        textbox(s, left + 0.2, top + 0.25, 3.6, 1.55, [
+            {"text": f"Slides {num}", "size": 13, "bold": True, "color": TEAL, "space": 6},
+            {"text": label, "size": 15, "bold": True, "color": SLATE, "space": 8},
             {"text": who, "size": 13, "color": MUTED},
         ])
     footer(s, "Komla Petro Asinyo", 2)
-    add_notes(s, "Annoncer l’ordre. Préciser que Wren (dernière) fait la conclusion.")
+    add_notes(s, "Annoncer : chacun a 2 slides, dans l’ordre. Wren (dernière) conclut.")
 
     # ========== 3 3V — Kassoum ==========
     s = prs.slides.add_slide(blank)
@@ -242,7 +225,7 @@ def build():
     footer(s, "Kassoum Dene", 3)
     add_notes(s, "Lire le contexte, puis chaque V avec un exemple. Finir sur HDFS + YARN.")
 
-    # ========== 4 HDFS — Joel ==========
+    # ========== 4 HDFS — Kassoum ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "HDFS vs système de fichiers classique")
@@ -268,10 +251,10 @@ def build():
         {"text": "Plusieurs copies sur le cluster → tolérance aux pannes.", "size": 13, "space": 4},
         {"text": "Le NameNode ne stocke pas le contenu des fichiers.", "size": 13},
     ])
-    footer(s, "Joel Kazoni Tugirimana", 4)
+    footer(s, "Kassoum Dene", 4)
     add_notes(s, "Comparer les 2 colonnes. Insister blocs + réplication + rôle NameNode.")
 
-    # ========== 5 YARN — Forbes ==========
+    # ========== 5 YARN — Joel ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "YARN : qui orchestre, qui exécute ?")
@@ -289,10 +272,10 @@ def build():
         {"text": "NodeManager = exécute sur sa machine", "size": 13, "space": 10},
         {"text": "Ouvrir UI YARN →", "size": 13, "bold": True, "color": BLUE, "url": UI_YARN},
     ])
-    footer(s, "Forbes Magène", 5)
+    footer(s, "Joel Kazoni Tugirimana", 5)
     add_notes(s, "Suivre 1→2→3. Si question ApplicationMaster : chef du job lancé via le RM.")
 
-    # ========== 6 ARCHITECTURE — Frank ==========
+    # ========== 6 ARCHITECTURE — Joel ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Architecture : 1 master + 5 workers (Docker)")
@@ -311,10 +294,10 @@ def build():
         {"text": "UI HDFS → http://localhost:9870", "size": 13, "color": BLUE, "url": UI_HDFS, "space": 3},
         {"text": "UI YARN → http://localhost:8088", "size": 13, "color": BLUE, "url": UI_YARN},
     ])
-    footer(s, "Frank A Simo Ngounou", 6)
+    footer(s, "Joel Kazoni Tugirimana", 6)
     add_notes(s, "Schéma master puis 5 workers. Citer ports et image.")
 
-    # ========== 7 DEPLOIEMENT — Frank ==========
+    # ========== 7 DEPLOIEMENT — Forbes ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Déploiement du cluster et publication Hub")
@@ -335,10 +318,10 @@ def build():
     add_pic(s, "screenshot-terminal-01.png", 6.6, 1.25, width=6.3)
     caption(s, 6.6, 4.85, 6.3, "Terminal : docker ps / dfsadmin -report")
     add_pic(s, "screenshot-namenode.png", 6.6, 5.15, height=1.55)
-    footer(s, "Frank A Simo Ngounou", 7)
+    footer(s, "Forbes Magène", 7)
     add_notes(s, "Dire les 3 commandes. Montrer capture. Rappeler Hub.")
 
-    # ========== 8 HDFS PRATIQUE — Wren ==========
+    # ========== 8 HDFS PRATIQUE — Forbes ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Manipulations HDFS — dossier /data/ventes/2026")
@@ -360,10 +343,10 @@ def build():
     textbox(s, 6.4, 5.65, 6.5, 0.9, [
         {"text": "Note : fichier petit (377 o) → 1 seul bloc. Normal avec une taille de bloc de 128 Mo.", "size": 12, "color": MUTED},
     ])
-    footer(s, "Wren Surprenant-Nicolson", 8)
-    add_notes(s, "Suivre les 5 étapes. Expliquer Trash et setrep. Reviendra pour la conclusion.")
+    footer(s, "Forbes Magène", 8)
+    add_notes(s, "Suivre les 5 étapes. Expliquer Trash et setrep.")
 
-    # ========== 9 JOB PI — Forbes ==========
+    # ========== 9 JOB PI — Frank ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Job YARN : calcul de π (exemple MapReduce)")
@@ -384,10 +367,10 @@ def build():
     add_pic(s, "screenshot-yarn-app.png", 6.3, 1.2, width=6.6)
     caption(s, 6.3, 4.7, 6.6, "UI — détail application FINISHED / SUCCEEDED")
     add_pic(s, "screenshot-terminal-03.png", 6.3, 5.0, height=1.7)
-    footer(s, "Forbes Magène", 9)
+    footer(s, "Frank A Simo Ngounou", 9)
     add_notes(s, "Expliquer vite Monte Carlo. Insister SUCCEEDED + id application.")
 
-    # ========== 10 MONITORING — Joel ==========
+    # ========== 10 MONITORING — Frank ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Monitoring : interfaces web NameNode et YARN")
@@ -406,10 +389,10 @@ def build():
         {"text": "DataNodes →", "size": 12, "bold": True, "color": BLUE, "url": UI_DN, "space": 2},
         {"text": "YARN →", "size": 12, "bold": True, "color": BLUE, "url": UI_YARN},
     ])
-    footer(s, "Joel Kazoni Tugirimana", 10)
+    footer(s, "Frank A Simo Ngounou", 10)
     add_notes(s, "Montrer les 2 captures. Citer missing block / setrep.")
 
-    # ========== 11 TROUBLESHOOTING — Kassoum ==========
+    # ========== 11 TROUBLESHOOTING — Wren ==========
     s = prs.slides.add_slide(blank)
     add_hard_rect(s, 0, 0, W, H, CREAM)
     title_bar(s, "Problèmes rencontrés et solutions")
@@ -436,8 +419,8 @@ def build():
             {"text": f"Cause : {cause}", "size": 12, "color": MUTED, "space": 3},
             {"text": f"Solution : {sol}", "size": 13, "bold": True, "color": TEAL},
         ])
-    footer(s, "Kassoum Dene", 11)
-    add_notes(s, "Un problème = une cause = une solution. Puis passer à Wren pour conclure.")
+    footer(s, "Wren Surprenant-Nicolson", 11)
+    add_notes(s, "Un problème = une cause = une solution. Enchaîner directement sur la conclusion.")
 
     # ========== 12 CONCLUSION — Wren (dernière) ==========
     s = prs.slides.add_slide(blank)
