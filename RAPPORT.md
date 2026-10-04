@@ -18,21 +18,13 @@
 | Joel Kazoni Tugirimana | Forbes Magène |
 | Frank A Simo Ngounou | Wren Surprenant-Nicolson |
 
-> **Objectif du livrable :** déployer un cluster Hadoop multi-nœuds avec Docker, manipuler HDFS, exécuter un job YARN, publier l’image sur Docker Hub, et documenter les résultats avec captures d’écran et commandes exactes.
-
 ---
 
 ## Introduction
 
-Ce rapport présente le travail du **groupe G4 — Les_Hadoop_Riders** pour le Projet 1 de l’UA1. Nous avons choisi de déployer et d’exploiter un **cluster Hadoop** (stockage **HDFS** et orchestration **YARN**) entièrement conteneurisé avec **Docker** et **Docker Compose**.
+Ce rapport décrit le travail du groupe **G4 — Les_Hadoop_Riders** pour le Projet 1. On a déployé un cluster **Hadoop** avec **Docker** : stockage **HDFS**, jobs avec **YARN**, image publiée sur Docker Hub.
 
-Le document suit la structure de l’énoncé :
-
-1. **Partie 1** — contexte théorique (cas d’usage Big Data, HDFS, YARN) ;
-2. **Partie 2** — mise en pratique (déploiement Docker, manipulations HDFS, job YARN) ;
-3. **Partie 3** — administration, monitoring et retour d’expérience.
-
-Nous nous sommes appuyés sur une image unique `leshadoopriders/hadoop-tp-g4:1.0`, publiée sur Docker Hub, et sur un dépôt GitHub contenant le code source, les configurations et les scripts de démonstration.
+Le rapport reprend les trois parties de l’énoncé : théorie, manipulations pratiques, puis monitoring et problèmes rencontrés.
 
 ---
 
@@ -101,6 +93,12 @@ Sur un système local, un fichier vit sur **une** machine. Avec **HDFS**, le fic
 Enchaînement typique : le client soumet un job → le ResourceManager alloue des ressources → l’ApplicationMaster coordonne le job → les NodeManagers exécutent les tâches dans des conteneurs.
 
 > **À retenir :** le ResourceManager **orchestre** ; le NodeManager **exécute** localement.
+
+---
+
+## Méthode de travail
+
+Nous avons d’abord préparé l’image Docker et le fichier `docker-compose.yml` (1 master + 5 workers). Ensuite nous avons vérifié le cluster (`dfsadmin -report`, UI NameNode), puis enchaîné les commandes HDFS et le job YARN. Les captures d’écran du rapport ont été prises pendant ces tests. Enfin, l’image a été poussée sur Docker Hub et le code déposé sur GitHub.
 
 ---
 

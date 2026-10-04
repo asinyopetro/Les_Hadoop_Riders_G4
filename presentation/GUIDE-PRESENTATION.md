@@ -5,7 +5,7 @@
 **Conclusion :** **Wren** (dernière personne)  
 **Fichier PPT :** `PRESENTATION-G4-Les_Hadoop_Riders.pptx` (ou `PRESENTATION-G4-ORDRE.pptx`)
 
-Ce guide donne le **texte complet à dire** slide par slide. Tu peux le lire presque tel quel, ou le reformuler avec tes mots — mais le contenu doit rester le même.
+Ce guide donne le texte à dire slide par slide. Chacun peut le reformuler avec ses mots.
 
 ---
 
