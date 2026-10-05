@@ -1,7 +1,6 @@
 FROM apache/hadoop:3.3.6
 
 LABEL maintainer="Les_Hadoop_Riders G4"
-LABEL description="Cluster Hadoop HDFS+YARN multi-noeuds pour UA1 Projet 1"
 
 USER root
 

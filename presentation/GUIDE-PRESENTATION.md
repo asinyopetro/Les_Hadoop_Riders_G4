@@ -1,17 +1,11 @@
-# Guide de présentation détaillé — G4 Les_Hadoop_Riders
+# Notes de présentation — G4 Les_Hadoop_Riders
 
-**Durée totale :** 8 à 10 minutes  
-**Règle :** **2 slides par personne**, dans l’ordre du groupe  
-**Conclusion :** **Wren** (dernière personne)  
-**Fichier PPT :** `PRESENTATION-G4-Les_Hadoop_Riders.pptx` (ou `PRESENTATION-G4-ORDRE.pptx`)
-
-Ce guide donne le texte à dire slide par slide. Chacun peut le reformuler avec ses mots.
+Durée : 8–10 min. Chacun fait 2 slides, dans l’ordre. Wren conclut.  
+PPT : `PRESENTATION-G4-Les_Hadoop_Riders.pptx`
 
 ---
 
-# 1. Lexique — sigles et définitions (à connaître)
-
-Lis cette section **avant** de mémoriser ton texte. Si le prof demande « ça veut dire quoi ? », réponds avec ces définitions.
+# 1. Sigles utiles
 
 | Terme / sigle | Signification | Définition simple |
 |---------------|---------------|-------------------|
@@ -184,7 +178,7 @@ Temps conseillé : **≈ 1 min 20** par personne (un peu plus pour Forbes et Fra
 > Ces blocs sont **répliqués** sur plusieurs **DataNodes**, c’est-à-dire plusieurs machines qui stockent les données.  
 > Le **NameNode**, lui, ne stocke pas le contenu : il garde le **namespace**, c’est-à-dire les noms, les dossiers, et l’emplacement des blocs.  
 >  
-> En résumé : le système local est **centralisé** ; HDFS est **distribué** et plus **tolérant aux pannes** grâce à la réplication.  
+> Local = centralisé. HDFS = distribué avec réplication.  
 > Je passe la parole à Joel.
 
 ---
@@ -206,8 +200,8 @@ Temps conseillé : **≈ 1 min 20** par personne (un peu plus pour Forbes et Fra
 >  
 > **Trois — les NodeManagers**, ou **NM**. Il y en a un sur **chaque worker**. Eux, ils **démarrent et surveillent** les conteneurs **sur leur machine**, puis ils remontent l’état au ResourceManager.  
 >  
-> À retenir en une phrase : le **ResourceManager orchestre**, le **NodeManager exécute localement**.  
-> Sur la capture, vous voyez l’interface web YARN, accessible sur le port **8088**.
+> Donc : ResourceManager orchestre, NodeManager exécute.  
+> L’UI YARN est sur le port **8088**.
 
 **Si question « ApplicationMaster ? » :**  
 > « C’est le processus qui pilote un job précis. Le ResourceManager l’aide à démarrer, puis l’ApplicationMaster demande des conteneurs pour les tâches Map et Reduce. »
@@ -387,36 +381,19 @@ Temps conseillé : **≈ 1 min 20** par personne (un peu plus pour Forbes et Fra
 | C’est quoi Trash ? | Forbes | Corbeille HDFS avant suppression définitive. |
 | Lien Hub ? | Wren / Komla | `leshadoopriders/hadoop-tp-g4` |
 
-Si tu ne sais vraiment pas :  
-> « On l’a détaillé dans le rapport, section [X]. Je peux vous montrer la capture. »  
-Mieux que d’inventer.
+Si on bloque : renvoyer au rapport ou à une capture.
 
 ---
 
-# 5. Conseils pratiques jour J
+# 5. Avant le jour J
 
-1. **Un seul clicker** pour les slides ; les autres regardent la salle.  
-2. **Ne lis pas le slide mot à mot** si le texte est déjà affiché : parle avec le script ci-dessus.  
-3. Quand tu dis un **sigle la première fois**, développe-le (*HDFS, Hadoop Distributed File System*). Ensuite tu peux dire juste HDFS.  
-4. Montre du doigt les **captures** quand tu dis « comme on le voit ici ».  
-5. Si tu dépasses : coupe les détails secondaires, **jamais** les 3V, HDFS vs local, RM/NM, 5 workers, job SUCCEEDED.  
-6. Wren : après la conclusion, **reste debout** pour les questions ; le groupe peut aider.
+- Relire ses 2 slides  
+- Connaître : 5 DataNodes, Hadoop 3.3.6, image `leshadoopriders/hadoop-tp-g4:1.0`  
+- Un seul qui clique les slides  
 
 ---
 
-# 6. Checklist avant de présenter
-
-- [ ] J’ai relu **mes 2 slides** à voix haute une fois  
-- [ ] Je connais les définitions de **mes** sigles (section Lexique)  
-- [ ] Je sais le numéro d’app π : `application_1791039798429_0001`  
-- [ ] Je connais l’image Hub : `leshadoopriders/hadoop-tp-g4:1.0`  
-- [ ] Rapport PDF accessible  
-- [ ] PPT ouvert et testé en mode diaporama  
-- [ ] Wren prêt pour la conclusion  
-
----
-
-# 7. Liens utiles
+# 6. Liens
 
 - Docker Hub : https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
 - GitHub : https://github.com/asinyopetro/Les_Hadoop_Riders_G4  

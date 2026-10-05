@@ -50,7 +50,7 @@ Le rapport reprend les trois parties de l’énoncé : théorie, manipulations p
 
 Nous avons choisi le secteur de l’**e-commerce** (commerce électronique).
 
-Exemple concret : une chaîne de magasins qui conserve les tickets de caisse, les logs du site web et les mouvements de stock. Chaque jour le volume grossit, les données arrivent souvent, et les formats changent (CSV, JSON, textes, images produits). Une base relationnelle seule peut devenir insuffisante lorsque les historiques sont très longs et que les formats sont hétérogènes.
+Exemple : une chaîne de magasins avec les tickets de caisse, les logs du site et les stocks. Le volume augmente, les données arrivent souvent, et les formats varient (CSV, JSON, texte, images).
 
 Les **3V** du Big Data dans ce contexte :
 
@@ -60,7 +60,7 @@ Les **3V** du Big Data dans ce contexte :
 | **Vélocité** | Vitesse d’arrivée | Commandes et paiements en continu ; réaction rapide (fraude, rupture) |
 | **Variété** | Diversité des formats | Tables, logs, JSON, images produits |
 
-Dans ce scénario, **HDFS** permet de stocker ces données de façon distribuée sur plusieurs machines. **YARN** permet ensuite de lancer des traitements (MapReduce, etc.) directement sur le cluster, près des données.
+**HDFS** sert à stocker ces données sur plusieurs machines. **YARN** sert à lancer les traitements (MapReduce, etc.) sur le cluster.
 
 ---
 
@@ -76,7 +76,7 @@ Dans ce scénario, **HDFS** permet de stocker ces données de façon distribuée
 
 Sur un système local, un fichier vit sur **une** machine. Avec **HDFS**, le fichier est coupé en blocs (souvent 128 Mo), répartis et répliqués sur plusieurs DataNodes. Le NameNode conserve le namespace (noms, dossiers, emplacement des blocs) mais ne stocke pas le contenu des fichiers.
 
-> **En pratique :** le FS local est centralisé ; HDFS est distribué et plus tolérant aux pannes grâce à la réplication. Si un DataNode tombe, d’autres copies du bloc restent disponibles.
+Donc le FS local est centralisé, alors que HDFS est distribué. Si un DataNode tombe, il reste d’autres copies du bloc.
 
 ---
 
@@ -90,15 +90,13 @@ Sur un système local, un fichier vit sur **une** machine. Avec **HDFS**, le fic
 | **NodeManager (NM)** | Chaque worker | Démarre et surveille les conteneurs **sur sa machine**, remonte l’état au RM |
 | **ApplicationMaster** | Conteneur alloué | « Chef » du job : suit l’exécution Map/Reduce |
 
-Enchaînement typique : le client soumet un job → le ResourceManager alloue des ressources → l’ApplicationMaster coordonne le job → les NodeManagers exécutent les tâches dans des conteneurs.
-
-> **À retenir :** le ResourceManager **orchestre** ; le NodeManager **exécute** localement.
+En gros : le client soumet un job, le ResourceManager alloue les ressources, l’ApplicationMaster suit le job, et les NodeManagers exécutent les tâches. Le RM orchestre, le NM exécute sur sa machine.
 
 ---
 
-## Méthode de travail
+## Démarche
 
-Nous avons d’abord préparé l’image Docker et le fichier `docker-compose.yml` (1 master + 5 workers). Ensuite nous avons vérifié le cluster (`dfsadmin -report`, UI NameNode), puis enchaîné les commandes HDFS et le job YARN. Les captures d’écran du rapport ont été prises pendant ces tests. Enfin, l’image a été poussée sur Docker Hub et le code déposé sur GitHub.
+On a d’abord lancé le cluster avec Docker Compose (1 master + 5 workers), vérifié les 5 DataNodes, puis fait les tests HDFS et le job YARN. Les captures viennent de ces tests. Après ça, on a publié l’image sur Docker Hub et mis le code sur GitHub.
 
 ---
 
@@ -128,7 +126,7 @@ docker compose up --build -d
 docker ps
 ```
 
-La commande `up --build -d` construit l’image si nécessaire, crée le réseau et démarre les six services en arrière-plan. `docker ps` permet de vérifier que les conteneurs sont bien *Up*.
+`docker compose up --build -d` construit l’image et démarre les six conteneurs. Avec `docker ps`, on vérifie qu’ils tournent.
 
 ![Capture terminal — docker ps / dfsadmin](captures/screenshot-terminal-01.png)
 
@@ -138,10 +136,8 @@ La commande `up --build -d` construit l’image si nécessaire, crée le réseau
 docker exec -it hadoop-master hdfs dfsadmin -report
 ```
 
-Cette commande interroge le NameNode et affiche l’état du cluster DFS (capacité, DataNodes vivants, etc.).
-
-> **Résultat observé :** Live datanodes **(5)** — le cluster est opérationnel.  
-> Interface NameNode : http://localhost:9870
+On obtient **Live datanodes (5)**. Le cluster est OK.  
+UI NameNode : http://localhost:9870
 
 ![UI NameNode](captures/screenshot-namenode.png)
 
@@ -154,8 +150,9 @@ docker login
 docker push leshadoopriders/hadoop-tp-g4:1.0
 ```
 
-> **URL publique :** https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
-> **Note :** Docker Hub impose les minuscules dans le nom de dépôt, d’où `g4` plutôt que `G4`.
+URL : https://hub.docker.com/r/leshadoopriders/hadoop-tp-g4  
+
+Docker Hub n’accepte pas les majuscules, donc on a mis `g4` et pas `G4`.
 
 ---
 
@@ -219,7 +216,7 @@ hdfs dfs -ls -R /user/hadoop/.Trash
 
 ### C. Exécution d’un job YARN (5 pts)
 
-Exemple choisi : **calcul de π** par méthode de Monte Carlo, via l’exemple officiel MapReduce fourni avec Hadoop. Cet exemple est pédagogique : il démarre rapidement et permet de vérifier que YARN alloue bien des ressources et que les NodeManagers exécutent les tâches.
+On a choisi le calcul de **π** (exemple MapReduce fourni avec Hadoop, méthode Monte Carlo). C’est simple à lancer et ça montre que YARN fonctionne.
 
 ```bash
 yarn jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar pi 4 1000
@@ -247,13 +244,11 @@ Les paramètres `4` et `1000` correspondent à **4** tâches map et **1000** éc
 
 ### 1. Interfaces web (4 pts)
 
-Les interfaces web permettent de contrôler l’état du cluster sans rester uniquement en ligne de commande.
-
 **NameNode — http://localhost:9870**  
-Le cluster affiche **5 DataNodes** actifs. L’espace DFS utilisé reste faible (environnement de laboratoire). Aucun *missing block* (bloc manquant) observé pendant nos tests. L’onglet DataNodes confirme que chaque worker est bien enregistré.
+On voit les **5 DataNodes**. Peu d’espace DFS utilisé (labo). Pas de missing block pendant nos tests.
 
 **YARN — http://localhost:8088**  
-L’application pi apparaît en état **FINISHED / SUCCEEDED**. Les métriques montrent l’allocation mémoire et le temps d’exécution (environ 198589 MB-seconds et 216 vcore-seconds sur un des runs). On peut aussi ouvrir le détail de l’application pour voir les tentatives Map/Reduce.
+Le job pi est en **FINISHED / SUCCEEDED**. On voit aussi la mémoire et le temps (environ 198589 MB-seconds et 216 vcore-seconds sur un run).
 
 ### 2. Facteur de réplication (3 pts)
 
@@ -261,9 +256,7 @@ L’application pi apparaît en état **FINISHED / SUCCEEDED**. Les métriques m
 hdfs dfs -setrep -w 2 /data/ventes/2026/transactions.csv
 ```
 
-> Après la commande, la réplication du fichier passe à **2**. Le NameNode met à jour la cible. Comme on diminuait de 3 à 2, une copie de bloc superflu est retirée sur les DataNodes. L’option `-w` (*wait*) attend la fin de l’opération avant de rendre la main.
-
-Changer la réplication est utile pour équilibrer **fiabilité** (plus de copies) et **coût en espace disque** (moins de copies).
+La réplication passe à **2**. Le NameNode met à jour la cible et retire une copie en trop. L’option `-w` attend la fin de l’opération.
 
 ### 3. Retour d’expérience / troubleshooting (3 pts)
 
@@ -273,15 +266,11 @@ Changer la réplication est utile pour équilibrer **fiabilité** (plus de copie
 | 2 | `repository name must be lowercase` | Majuscules dans le tag (`G4`) | Tag final `leshadoopriders/hadoop-tp-g4:1.0` |
 | 3 | Build bloqué longtemps | Téléchargement trop lent depuis archive.apache.org | Base `apache/hadoop:3.3.6` + notre config / `entrypoint.sh` |
 
-Ces incidents nous ont permis de mieux comprendre le cycle de vie d’une image Docker (build local → test → push Hub) et les contraintes de nommage de Docker Hub.
-
 ---
 
 ## Conclusion
 
-Le groupe **Les_Hadoop_Riders** a déployé un cluster Hadoop **1 master + 5 workers** avec Docker, manipulé HDFS (droits, fsck, lecture, fusion, corbeille, setrep), exécuté un job MapReduce π terminé en **SUCCEEDED**, et publié l’image `leshadoopriders/hadoop-tp-g4:1.0` sur Docker Hub.
-
-Ce travail montre qu’un environnement Big Data pédagogique peut être reproduit de façon reproductible grâce à la conteneurisation, tout en couvrant les notions centrales du cours : **3V**, **HDFS**, **YARN**, monitoring et administration de base.
+Au final, on a un cluster **1 master + 5 workers**, les tests HDFS (droits, fsck, merge, trash, setrep), un job π en **SUCCEEDED**, et l’image `leshadoopriders/hadoop-tp-g4:1.0` sur Docker Hub.
 
 ---
 
